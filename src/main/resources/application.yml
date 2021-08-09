@@ -1,0 +1,10 @@
+server:
+  servlet:
+    context-path: /parking
+  port: 8081
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/parking?serverTimezone=UTC
+    username: root
+    password: xiao
