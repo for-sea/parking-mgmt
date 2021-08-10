@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.io.IOException;
+
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -39,4 +41,40 @@ public class GlobalExceptionHandler {
                 .code(ResultCode.ARGS_NOT_VALIDATED.getCode())
                 .message(ResultCode.ARGS_NOT_VALIDATED.getMessage());
     }
+
+    /**
+     * 捕获Assert异常
+     * @param e
+     * @return
+     * @throws Exception
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public Result handler(IllegalArgumentException e) throws Exception{
+        log.info("Assert异常: ======> {}", e.getMessage());
+        return Result.fail().code(ResultCode.WRONG_USERNAME_OR_PASSWORD.getCode()).message(e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = UserExistException.class)
+    public Result handler(UserExistException e) throws IOException {
+        log.error("错误{}: ======> {}", e.getCode(), e.getMessage());
+        return Result.fail().code(e.getCode()).message(e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = UserNotExistException.class)
+    public Result handler(UserNotExistException e) throws IOException {
+        log.error("错误{}: ======> {}", e.getCode(), e.getMessage());
+        return Result.fail().code(e.getCode()).message(e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = WrongPasswordException.class)
+    public Result handler(WrongPasswordException e) throws IOException {
+        log.error("错误{}: ======> {}", e.getCode(), e.getMessage());
+        return Result.fail().code(e.getCode()).message(e.getMessage());
+    }
+
+
 }

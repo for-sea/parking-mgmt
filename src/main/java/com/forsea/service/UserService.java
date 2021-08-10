@@ -1,24 +1,31 @@
 package com.forsea.service;
 
-import com.forsea.pojo.LoginProfile;
-import com.forsea.pojo.User;
-import com.forsea.pojo.UserProfile;
-import com.forsea.pojo.UserUpdateProfile;
+import com.forsea.exception.UserExistException;
+import com.forsea.exception.WrongPasswordException;
+import com.forsea.pojo.dto.AdminUpdateDTO;
+import com.forsea.pojo.dto.LoginDTO;
+import com.forsea.pojo.entity.User;
+import com.forsea.pojo.vo.UserVO;
+import com.forsea.pojo.dto.UserUpdateDTO;
 
 import java.util.List;
 
 public interface UserService {
-    List<User> queryUsers();
+    UserVO getUserByUid(Long uid);
 
-    UserProfile insertUser(User user);
+    UserVO getUserByUsername(LoginDTO loginDTO) throws WrongPasswordException, Exception;
 
-    User insertAdmin(User user);
+    List<User> listUsers();
 
-    UserProfile login(LoginProfile loginProfile);
+    User getUsername(String username);
 
-    Long deleteUser(Long uid);
+    UserVO saveUser(User user) throws UserExistException;
 
-    User updateUserAdmin(User user);
+    User saveUserAdmin(User user);
 
-    UserProfile updateUser(UserUpdateProfile user);
+    Long removeUser(Long uid);
+
+    UserVO updateUser(UserUpdateDTO user);
+
+    User updateUserAdmin(AdminUpdateDTO user);
 }

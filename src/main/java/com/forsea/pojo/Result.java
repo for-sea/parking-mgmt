@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * 返回结果统一封装
- * 链式编程
+ * 采用链式编程
  */
 @Data
 @NoArgsConstructor
