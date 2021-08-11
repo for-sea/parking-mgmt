@@ -5,17 +5,17 @@ import com.forsea.pojo.entity.Bill;
 import java.util.List;
 
 public interface BillService {
-    Bill calCost(Bill bill);
+    Bill getBillByBid(Long bid);
 
-    Bill insertBill(Bill bill);
+    List<Bill> listBills();
 
-    Bill updateBill(Bill bill);
+    List<Bill> listBillsByUserId(Long uid);
 
-    List<Bill> queryBills();
-
-    List<Bill> queryBillsByUserId(Long uid);
+    Bill saveBill(Bill bill);
 
     Long deleteBill(Long bid);
 
-    Bill queryBillByBid(Long bid);
+    Bill updateBill(Bill bill);
+
+    Bill updateBillLeave(Bill bill);
 }

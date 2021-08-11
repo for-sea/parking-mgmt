@@ -25,7 +25,7 @@ public class Bill {
     private String beginTime;
     private String endTime;
 
-    private Integer stoped;
+    private Integer stop;
     private Integer cost;
 
     private Timestamp createTime;

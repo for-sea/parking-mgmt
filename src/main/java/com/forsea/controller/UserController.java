@@ -59,7 +59,7 @@ public class UserController {
      * @return
      */
     @GetMapping("/list")
-    public Result queryUsers(){
+    public Result queryUsersAdmin(){
         List<User> users = userService.listUsers();
         return Result.success().message("管理员获取所有用户成功").data(users);
     }
@@ -81,7 +81,7 @@ public class UserController {
      * @return
      */
     @DeleteMapping("/list")
-    public Result deleteUser(Long uid){
+    public Result deleteUserAdmin(Long uid){
         Long userId = userService.removeUser(uid);
         return Result.success().message("管理员删除用户成功").data(userId);
     }
