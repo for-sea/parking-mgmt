@@ -21,7 +21,7 @@ public interface UserService {
 
     UserVO saveUser(User user) throws UserExistException;
 
-    User saveUserAdmin(User user);
+    User saveUserAdmin(User user) throws UserExistException;
 
     Long removeUser(Long uid);
 

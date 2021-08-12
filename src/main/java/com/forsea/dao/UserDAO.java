@@ -74,9 +74,29 @@ public interface UserDAO {
      * 插入用户
      * @param user
      */
-    @Insert("insert into user (username, password, license, phone, status)" +
-            "values (#{username}, #{password}, #{license}, #{phone}, #{status});")
+    @Insert("<script>insert into user (" +
+                "<if test='username != null'>username,</if>" +
+                "<if test='password != null'>password,</if>" +
+                "<if test='license != null'>license,</if>" +
+                "<if test='phone != null'>phone,</if>" +
+                "<if test='role != null'>role,</if>" +
+                "<if test='perms != null'>perms,</if>" +
+                "<if test='status != null'>status,</if>" +
+                "<if test='createTime != null'>create_time,</if>" +
+                "<if test='updateTime != null'>update_time</if>" +
+            ") values (" +
+                "<if test='username != null'>#{username},</if>" +
+                "<if test='password != null'>#{password},</if>" +
+                "<if test='license != null'>#{license},</if>" +
+                "<if test='phone != null'>#{phone},</if>" +
+                "<if test='role != null'>#{role},</if>" +
+                "<if test='perms != null'>#{perms},</if>" +
+                "<if test='status != null'>#{status},</if>" +
+                "<if test='createTime != null'>#{createTime},</if>" +
+                "<if test='updateTime != null'>#{updateTime}</if>" +
+            ")</script>")
     @Options(keyColumn = "uid", keyProperty = "uid", useGeneratedKeys = true)
+    @ResultMap(value = "User")
     void insertUser(User user);
 
     /**
@@ -91,26 +111,30 @@ public interface UserDAO {
      * @param user
      */
     @Update("<script>update user set " +
-                "<if test='username != null'>username=#{username}, </if>" +
-                "<if test='license != null'>license=#{license}, </if>" +
-                "<if test='phone != null'>phone=#{phone}, </if>" +
-                "<if test='role != null'>role=#{role}, </if>" +
-                "<if test='perms != null'>perms=#{perms}, </if>" +
-                "<if test='status != null'>status=#{status} </if>" +
+                "<if test='username != null'>username=#{username},</if>" +
+                "<if test='license != null'>license=#{license},</if>" +
+                "<if test='phone != null'>phone=#{phone},</if>" +
+                "<if test='role != null'>role=#{role},</if>" +
+                "<if test='perms != null'>perms=#{perms},</if>" +
+                "<if test='status != null'>status=#{status},</if>" +
+                "<if test='updateTime != null'>update_time=#{updateTime},</if>" +
             "uid=#{uid} " +
             "where uid=#{uid};</script>")
+    @ResultMap(value = "User")
     void updateUserAdmin(AdminUpdateDTO user);
 
     /**
      * 用户更新用户信息
      * @param user
      */
-    @Update("<script>update user set " +
+    @Update("<script>update user set" +
                 "<if test='username != null'>username=#{username},</if>" +
                 "<if test='newPassword != null'>password=#{newPassword},</if>" +
                 "<if test='license != null'>license=#{license},</if>" +
-                "<if test='phone != null'>phone=#{phone} </if>" +
+                "<if test='phone != null'>phone=#{phone},</if>" +
+                "<if test='updateTime != null'>update_time=#{updateTime},</if>" +
             "uid=#{uid} " +
-            "where uid=#{uid} and password=#{oldPassword};</script>")
+            "where uid=#{uid} and password=#{password};</script>")
+    @ResultMap(value = "User")
     void updateUser(UserUpdateDTO user);
 }

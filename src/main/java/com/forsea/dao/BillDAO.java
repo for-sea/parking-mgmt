@@ -50,8 +50,8 @@ public interface BillDAO {
      * 插入账单
      * @param bill
      */
-    @Insert("insert into bill (user_id, license, begin_time) " +
-            "values (#{userId}, #{license}, #{beginTime});")
+    @Insert("insert into bill (user_id, license, begin_time, create_time) " +
+            "values (#{userId}, #{license}, #{beginTime}, #{createTime});")
     @ResultMap(value = "Bill")
     @Options(keyProperty = "bid", keyColumn = "bid", useGeneratedKeys = true)
     void insertBill(Bill bill);
@@ -74,6 +74,7 @@ public interface BillDAO {
             "<if test='endTime != null'>end_time=#{endTime}, </if>" +
             "<if test='stop != null'>stop=#{stop}, </if>" +
             "<if test='cost != null'>cost=#{cost}, </if>" +
+            "<if test='updateTime != null'>update_time=#{updateTime}, </if>" +
             "bid=#{bid} " +
             "where bid=#{bid}" +
             "</script>")

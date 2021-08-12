@@ -1,5 +1,7 @@
 package com.forsea.service.impl;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import com.forsea.dao.UserDAO;
 import com.forsea.enums.ResultCode;
 import com.forsea.exception.UserExistException;
@@ -11,6 +13,7 @@ import com.forsea.pojo.entity.User;
 import com.forsea.pojo.vo.UserVO;
 import com.forsea.pojo.dto.UserUpdateDTO;
 import com.forsea.service.UserService;
+import com.forsea.utils.CurrentTime;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +28,7 @@ public class UserServiceImpl implements UserService {
 
 
     /**
-     * 通过用户id查询用户
-     * 用于用户个人中心
+     * 通过用户id查询用户，用于用户个人中心
      * @param uid
      * @return 用户常用信息
      */
@@ -91,6 +93,10 @@ public class UserServiceImpl implements UserService {
         if (existUser != null){
             throw new UserExistException(ResultCode.USER_EXISTED.getCode(), ResultCode.USER_EXISTED.getMessage());
         }
+
+        String currentTime = CurrentTime.getCurrentTime();
+        user.setCreateTime(currentTime);
+        user.setUpdateTime(currentTime);
         userDAO.insertUser(user);
         User savedUser = userDAO.selectUserByUid(user.getUid());
         UserVO userVO = partOfUser(savedUser);
@@ -103,7 +109,14 @@ public class UserServiceImpl implements UserService {
      * @return User实例
      */
     @Override
-    public User saveUserAdmin(User user) {
+    public User saveUserAdmin(User user) throws UserExistException {
+        User existUser = getUsername(user.getUsername());
+        if (existUser != null){
+            throw new UserExistException(ResultCode.USER_EXISTED.getCode(), ResultCode.USER_EXISTED.getMessage());
+        }
+        String currentTime = CurrentTime.getCurrentTime();
+        user.setCreateTime(currentTime);
+        user.setUpdateTime(currentTime);
         userDAO.insertUser(user);
         User savedUser = userDAO.selectUserByUid(user.getUid());
         return savedUser;
@@ -127,6 +140,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserVO updateUser(UserUpdateDTO userUpdateDTO) {
+        String currentTime = CurrentTime.getCurrentTime();
+        userUpdateDTO.setUpdateTime(currentTime);
         userDAO.updateUser(userUpdateDTO);
         User updatedUser = userDAO.selectUserByUid(userUpdateDTO.getUid());
         UserVO userVO = partOfUser(updatedUser);
@@ -140,11 +155,18 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User updateUserAdmin(AdminUpdateDTO adminUpdateDTO) {
+        String currentTime = CurrentTime.getCurrentTime();
+        adminUpdateDTO.setUpdateTime(currentTime);
         userDAO.updateUserAdmin(adminUpdateDTO);
         User updatedUser = userDAO.selectUserByUid(adminUpdateDTO.getUid());
         return updatedUser;
     }
 
+    /**
+     * User部分数据封装到UserVO
+     * @param user
+     * @return
+     */
     public UserVO partOfUser(User user){
         UserVO userVO = new UserVO();
         userVO.setUid(user.getUid());
@@ -152,6 +174,10 @@ public class UserServiceImpl implements UserService {
         userVO.setLicense(user.getLicense());
         userVO.setPhone(user.getPhone());
         userVO.setStatus(user.getStatus());
+        userVO.setCreateTime(user.getCreateTime());
+        userVO.setUpdateTime(user.getUpdateTime());
         return userVO;
     }
+
+
 }

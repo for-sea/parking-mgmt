@@ -1,20 +1,25 @@
 package com.forsea.pojo;
 
 import com.forsea.enums.ResultCode;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 返回结果统一封装
  * 采用链式编程
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ApiModel("返回结果统一封装")
 public class Result {
+    @ApiModelProperty("返回码")
     private Integer code;
+    @ApiModelProperty("返回信息")
     private String message;
+    @ApiModelProperty("返回数据")
     private Object data;
 
     /**

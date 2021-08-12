@@ -17,6 +17,7 @@ import java.util.Formatter;
 @SpringBootTest
 public class TimeTest {
 
+
     @Test
     void testTimeCal() {
         String today = DateUtil.today();
@@ -40,6 +41,12 @@ public class TimeTest {
         log.info("相差小时: {}", betweenHour);
         log.info("当前日期: {}", today);
         log.info("当前时间: {}", time);
+
+
+        log.info("===================================");
+        DateTime date3 = DateUtil.date();
+        String formatDateTime = DateUtil.formatDateTime(date3);
+        log.info("date2: =======> {}", formatDateTime);
     }
 
 
