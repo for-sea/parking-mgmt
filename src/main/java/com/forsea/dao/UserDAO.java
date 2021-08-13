@@ -128,10 +128,10 @@ public interface UserDAO {
      * @param user
      */
     @Update("<script>update user set" +
-                "<if test='username != null'>username=#{username},</if>" +
-                "<if test='newPassword != null'>password=#{newPassword},</if>" +
-                "<if test='license != null'>license=#{license},</if>" +
-                "<if test='phone != null'>phone=#{phone},</if>" +
+                "<if test='username != null and username !=&apos;&apos;'>username=#{username},</if>" +
+                "<if test='newPassword !=&apos;&apos; and reNewPassword !=&apos;&apos;'>password=#{newPassword},</if>" +
+                "<if test='license != null and license !=&apos;&apos;'>license=#{license},</if>" +
+                "<if test='phone != null and phone !=&apos;&apos;'>phone=#{phone},</if>" +
                 "<if test='updateTime != null'>update_time=#{updateTime},</if>" +
             "uid=#{uid} " +
             "where uid=#{uid} and password=#{password};</script>")

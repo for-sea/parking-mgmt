@@ -20,10 +20,10 @@ public class UserUpdateDTO {
     private String username;
     @ApiModelProperty("用户密码")
     private String password;
-    @ApiModelProperty("旧密码")
-    private String oldPassword;
     @ApiModelProperty("新密码")
     private String newPassword;
+    @ApiModelProperty("确认新密码")
+    private String reNewPassword;
     @ApiModelProperty("车牌号")
     private String license;
     @ApiModelProperty("手机号")

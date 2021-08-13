@@ -5,6 +5,7 @@ public enum ResultCode {
     FAIL(1, "操作失败"),
     ARGS_NOT_VALIDATED(1001, "参数校验不通过"),
     WRONG_USERNAME_OR_PASSWORD(1002, "用户名或密码错误"),
+    PASSWORD_NOT_SAME(1003, "两次新密码输入不一致"),
     USER_EXISTED(1101, "用户已存在"),
     USER_NOT_EXIST(1102, "用户不存在"),
     BILL_NOT_EXIST(2102, "账单不存在")

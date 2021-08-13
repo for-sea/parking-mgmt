@@ -1,6 +1,5 @@
 package com.forsea.controller;
 
-import com.forsea.exception.UserExistException;
 import com.forsea.pojo.*;
 import com.forsea.pojo.dto.AdminUpdateDTO;
 import com.forsea.pojo.dto.LoginDTO;
@@ -39,9 +38,16 @@ public class UserController {
         return Result.success().message("用户登录成功").data(userVO);
     }
 
-    @PutMapping("/personal")
+    @GetMapping("/personal/{uid}")
+    @ApiOperation("用户个人中心信息")
+    public Result queryUserByUid(@PathVariable("uid") @ApiParam("用户id") Long uid){
+        UserVO userVO = userService.getUserByUid(uid);
+        return Result.success().message("用户获取个人信息成功").data(userVO);
+    }
+
+    @PutMapping("/personal/{uid}")
     @ApiOperation("用户修改个人信息")
-    public Result modifyUser(@Validated @RequestBody @ApiParam("用户更新个人信息DTO") UserUpdateDTO userUpdateDTO){
+    public Result modifyUser(@Validated @RequestBody @ApiParam("用户更新个人信息DTO") UserUpdateDTO userUpdateDTO) throws Exception {
         UserVO userVO = userService.updateUser(userUpdateDTO);
         return Result.success().message("用户修改个人信息成功").data(userVO);
     }
@@ -51,7 +57,7 @@ public class UserController {
     public Result queryUsersAdmin(){
         List<User> users = userService.listUsers();
         return Result.success().message("管理员获取所有用户成功").data(users);
-    }
+     }
 
     @PostMapping("/list")
     @ApiOperation("管理员添加用户")
@@ -69,7 +75,7 @@ public class UserController {
 
     @PutMapping("/list")
     @ApiOperation("管理员修改用户信息")
-    public Result modifyUserAdmin(@Validated @RequestBody @ApiParam("管理员更新用户信息DTO") AdminUpdateDTO adminUpdateDTO){
+    public Result modifyUserAdmin(@Validated @RequestBody @ApiParam("管理员更新用户信息DTO") AdminUpdateDTO adminUpdateDTO) throws Exception {
         User updatedUser = userService.updateUserAdmin(adminUpdateDTO);
         return Result.success().message("管理员修改用户信息成功").data(updatedUser);
     }

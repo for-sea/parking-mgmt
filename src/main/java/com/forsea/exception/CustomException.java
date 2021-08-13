@@ -3,15 +3,16 @@ package com.forsea.exception;
 import lombok.Getter;
 
 @Getter
-public class UserNotExistException extends Exception {
+public class CustomException extends Exception {
+
     private Integer code;
 
-    public UserNotExistException(Integer code, String message) {
+    public CustomException(Integer code, String message) {
         super(message);
         this.code = code;
     }
 
-    public UserNotExistException(String message) {
+    public CustomException(String message) {
         super(message);
     }
 }

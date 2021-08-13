@@ -55,26 +55,19 @@ public class GlobalExceptionHandler {
         return Result.fail().code(ResultCode.WRONG_USERNAME_OR_PASSWORD.getCode()).message(e.getMessage());
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(value = UserExistException.class)
-    public Result handler(UserExistException e) throws IOException {
+    /**
+     * 捕获自定义异常
+     * @param e
+     * @return
+     * @throws IOException
+     */
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = CustomException.class)
+    public Result handler(CustomException e) throws IOException {
         log.error("错误{}: ======> {}", e.getCode(), e.getMessage());
         return Result.fail().code(e.getCode()).message(e.getMessage());
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(value = UserNotExistException.class)
-    public Result handler(UserNotExistException e) throws IOException {
-        log.error("错误{}: ======> {}", e.getCode(), e.getMessage());
-        return Result.fail().code(e.getCode()).message(e.getMessage());
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(value = WrongPasswordException.class)
-    public Result handler(WrongPasswordException e) throws IOException {
-        log.error("错误{}: ======> {}", e.getCode(), e.getMessage());
-        return Result.fail().code(e.getCode()).message(e.getMessage());
-    }
 
 
 }

@@ -47,8 +47,9 @@ public class TimeTest {
         DateTime date3 = DateUtil.date();
         String formatDateTime = DateUtil.formatDateTime(date3);
         log.info("date2: =======> {}", formatDateTime);
+        String str = "";
+        log.info("字符串为: ======> {}", str);
     }
-
 
     private static Object resourceA = new Object();
 

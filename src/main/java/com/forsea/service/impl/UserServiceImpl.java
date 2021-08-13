@@ -1,12 +1,8 @@
 package com.forsea.service.impl;
 
-import cn.hutool.core.date.DateTime;
-import cn.hutool.core.date.DateUtil;
 import com.forsea.dao.UserDAO;
 import com.forsea.enums.ResultCode;
-import com.forsea.exception.UserExistException;
-import com.forsea.exception.UserNotExistException;
-import com.forsea.exception.WrongPasswordException;
+import com.forsea.exception.CustomException;
 import com.forsea.pojo.dto.AdminUpdateDTO;
 import com.forsea.pojo.dto.LoginDTO;
 import com.forsea.pojo.entity.User;
@@ -18,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Slf4j
@@ -49,11 +46,11 @@ public class UserServiceImpl implements UserService {
         User existUser = getUsername(loginDTO.getUsername());
         // 用户不存在
         if (existUser == null){
-            throw new UserNotExistException(ResultCode.USER_NOT_EXIST.getCode(), ResultCode.USER_NOT_EXIST.getMessage());
+            throw new CustomException(ResultCode.USER_NOT_EXIST.getCode(), ResultCode.USER_NOT_EXIST.getMessage());
         }
         // 密码错误
         if (!loginDTO.getPassword().equals(existUser.getPassword())){
-            throw new WrongPasswordException(ResultCode.WRONG_USERNAME_OR_PASSWORD.getCode(),
+            throw new CustomException(ResultCode.WRONG_USERNAME_OR_PASSWORD.getCode(),
                     ResultCode.WRONG_USERNAME_OR_PASSWORD.getMessage());
         }
         User user = userDAO.selectUserLogin(loginDTO);
@@ -88,10 +85,11 @@ public class UserServiceImpl implements UserService {
      * @return 用户常用信息
      */
     @Override
-    public UserVO saveUser(User user) throws UserExistException {
+    public UserVO saveUser(User user) throws Exception {
         User existUser = getUsername(user.getUsername());
+        // 用户已存在
         if (existUser != null){
-            throw new UserExistException(ResultCode.USER_EXISTED.getCode(), ResultCode.USER_EXISTED.getMessage());
+            throw new CustomException(ResultCode.USER_EXISTED.getCode(), ResultCode.USER_EXISTED.getMessage());
         }
 
         String currentTime = CurrentTime.getCurrentTime();
@@ -109,10 +107,10 @@ public class UserServiceImpl implements UserService {
      * @return User实例
      */
     @Override
-    public User saveUserAdmin(User user) throws UserExistException {
+    public User saveUserAdmin(User user) throws Exception {
         User existUser = getUsername(user.getUsername());
         if (existUser != null){
-            throw new UserExistException(ResultCode.USER_EXISTED.getCode(), ResultCode.USER_EXISTED.getMessage());
+            throw new CustomException(ResultCode.USER_EXISTED.getCode(), ResultCode.USER_EXISTED.getMessage());
         }
         String currentTime = CurrentTime.getCurrentTime();
         user.setCreateTime(currentTime);
@@ -139,7 +137,24 @@ public class UserServiceImpl implements UserService {
      * @return 更新后的用户常用信息
      */
     @Override
-    public UserVO updateUser(UserUpdateDTO userUpdateDTO) {
+    public UserVO updateUser(UserUpdateDTO userUpdateDTO) throws Exception {
+        log.info("用户输入的修改信息: ======> {}", userUpdateDTO);
+        User existUser = getUsername(userUpdateDTO.getUsername());
+        User user = userDAO.selectUserByUid(userUpdateDTO.getUid());
+        // 用户已存在
+        if (existUser != null){
+            throw new CustomException(ResultCode.USER_EXISTED.getCode(), ResultCode.USER_EXISTED.getMessage());
+        }
+        // 密码错误
+        if (!userUpdateDTO.getPassword().equals(user.getPassword())){
+            throw new CustomException(ResultCode.WRONG_USERNAME_OR_PASSWORD.getCode(), ResultCode.WRONG_USERNAME_OR_PASSWORD.getMessage());
+        }
+        // 两次新密码输入不一致
+        if (userUpdateDTO.getNewPassword() != "" || userUpdateDTO.getReNewPassword() != ""){
+            if (!userUpdateDTO.getNewPassword().equals(userUpdateDTO.getReNewPassword())){
+                throw new CustomException(ResultCode.PASSWORD_NOT_SAME.getCode(), ResultCode.PASSWORD_NOT_SAME.getMessage());
+            }
+        }
         String currentTime = CurrentTime.getCurrentTime();
         userUpdateDTO.setUpdateTime(currentTime);
         userDAO.updateUser(userUpdateDTO);
@@ -154,7 +169,12 @@ public class UserServiceImpl implements UserService {
      * @return 更新后的User对象
      */
     @Override
-    public User updateUserAdmin(AdminUpdateDTO adminUpdateDTO) {
+    public User updateUserAdmin(AdminUpdateDTO adminUpdateDTO) throws Exception {
+        User existUser = getUsername(adminUpdateDTO.getUsername());
+        // 用户已存在
+        if (existUser != null){
+            throw new CustomException(ResultCode.USER_EXISTED.getCode(), ResultCode.USER_EXISTED.getMessage());
+        }
         String currentTime = CurrentTime.getCurrentTime();
         adminUpdateDTO.setUpdateTime(currentTime);
         userDAO.updateUserAdmin(adminUpdateDTO);
@@ -177,6 +197,7 @@ public class UserServiceImpl implements UserService {
         userVO.setCreateTime(user.getCreateTime());
         userVO.setUpdateTime(user.getUpdateTime());
         return userVO;
+
     }
 
 
