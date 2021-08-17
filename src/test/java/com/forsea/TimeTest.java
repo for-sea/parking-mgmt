@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Formatter;
+import java.util.HashMap;
 
 @Slf4j
 @SpringBootTest
@@ -93,5 +94,14 @@ public class TimeTest {
 
 
 
+    }
+
+    @Test
+    void test(){
+        HashMap<Character, Integer> map = new HashMap<>();
+        map.put('b', 1);
+        log.info("key: {}, value: {}", 'b', map.get('b'));
+        map.put('b', 4);
+        log.info("key: {}, value: {}", 'b', map.get('b'));
     }
 }

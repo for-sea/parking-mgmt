@@ -7,12 +7,14 @@ import com.forsea.pojo.Result;
 import com.forsea.service.BillService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/bill")
 public class BillController {
@@ -65,6 +67,8 @@ public class BillController {
     @PutMapping("/list")
     @ApiOperation("管理员修改账单信息")
     public Result modifyBill(@RequestBody @ApiParam("账单实体") Bill bill) {
+        log.info("进入BillController ");
+        log.info("账单实体： {}",bill.toString());
         Bill updatedBill = billService.updateBill(bill);
         return Result.success().message("管理员修改订单成功").data(updatedBill);
     }

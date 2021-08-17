@@ -22,7 +22,6 @@ public class GlobalExceptionHandler {
      * @return
      * @throws Exception
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Result handler(MethodArgumentNotValidException e) throws Exception {
         BindingResult bindingResult = e.getBindingResult();
@@ -48,7 +47,6 @@ public class GlobalExceptionHandler {
      * @return
      * @throws Exception
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
     public Result handler(IllegalArgumentException e) throws Exception{
         log.info("Assert异常: ======> {}", e.getMessage());

@@ -96,6 +96,7 @@ public class BillServiceImpl implements BillService {
         String currentTime = CurrentTime.getCurrentTime();
         // 注入updateTime
         bill.setUpdateTime(currentTime);
+        log.info("进入BillServiceImpl");
         billDAO.updateBill(bill);
         return billDAO.selectBillByBid(bill.getBid());
     }

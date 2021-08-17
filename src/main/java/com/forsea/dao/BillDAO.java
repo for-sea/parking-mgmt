@@ -68,13 +68,13 @@ public interface BillDAO {
      * @param bill
      */
     @Update("<script>update bill set" +
-            "<if test='userId != null'>user_id=#{userId}, </if>" +
-            "<if test='license != null'>license=#{license}, </if>" +
-            "<if test='beginTime != null'>begin_time=#{beginTime}, </if>" +
-            "<if test='endTime != null'>end_time=#{endTime}, </if>" +
-            "<if test='stop != null'>stop=#{stop}, </if>" +
-            "<if test='cost != null'>cost=#{cost}, </if>" +
-            "<if test='updateTime != null'>update_time=#{updateTime}, </if>" +
+            "<if test='userId != null and userId !=&apos;&apos;'>user_id=#{userId}, </if>" +
+            "<if test='license != null and license !=&apos;&apos;'>license=#{license}, </if>" +
+            "<if test='beginTime != null and beginTime !=&apos;&apos;'>begin_time=#{beginTime}, </if>" +
+            "<if test='endTime != null and endTime !=&apos;&apos;'>end_time=#{endTime}, </if>" +
+            "<if test='stop != null and stop !=&apos;&apos;'>stop=#{stop}, </if>" +
+            "<if test='cost != null and cost !=&apos;&apos;'>cost=#{cost}, </if>" +
+            "<if test='updateTime != null and updateTime !=&apos;&apos;'>update_time=#{updateTime}, </if>" +
             "bid=#{bid} " +
             "where bid=#{bid}" +
             "</script>")

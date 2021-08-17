@@ -111,13 +111,14 @@ public interface UserDAO {
      * @param user
      */
     @Update("<script>update user set " +
-                "<if test='username != null'>username=#{username},</if>" +
-                "<if test='license != null'>license=#{license},</if>" +
-                "<if test='phone != null'>phone=#{phone},</if>" +
-                "<if test='role != null'>role=#{role},</if>" +
-                "<if test='perms != null'>perms=#{perms},</if>" +
-                "<if test='status != null'>status=#{status},</if>" +
-                "<if test='updateTime != null'>update_time=#{updateTime},</if>" +
+                "<if test='username != null and username !=&apos;&apos;'>username=#{username},</if>" +
+                "<if test='newPassword !=&apos;&apos; and reNewPassword !=&apos;&apos;'>password=#{newPassword},</if>" +
+                "<if test='license != null and license !=&apos;&apos; '>license=#{license},</if>" +
+                "<if test='phone != null and phone !=&apos;&apos;'>phone=#{phone},</if>" +
+                "<if test='role != null and role !=&apos;&apos;'>role=#{role},</if>" +
+                "<if test='perms != null and perms !=&apos;&apos;'>perms=#{perms},</if>" +
+                "<if test='status != null and status !=&apos;&apos;'>status=#{status},</if>" +
+                "<if test='updateTime != null and updateTime !=&apos;&apos;'>update_time=#{updateTime},</if>" +
             "uid=#{uid} " +
             "where uid=#{uid};</script>")
     @ResultMap(value = "User")

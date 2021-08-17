@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor
@@ -21,10 +19,12 @@ public class AdminUpdateDTO {
     private String username;
     @ApiModelProperty("用户密码")
     private String password;
+    @ApiModelProperty("新密码")
+    private String newPassword;
+    @ApiModelProperty("确认新密码")
+    private String reNewPassword;
     @ApiModelProperty("车牌号")
     private String license;
-    @Pattern(regexp = "^(1[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{9}$",
-            message = "手机号码格式错误")
     @ApiModelProperty("手机号")
     private String phone;
     @ApiModelProperty("用户角色")
