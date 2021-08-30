@@ -67,8 +67,6 @@ public class BillController {
     @PutMapping("/list")
     @ApiOperation("管理员修改账单信息")
     public Result modifyBill(@RequestBody @ApiParam("账单实体") Bill bill) {
-        log.info("进入BillController ");
-        log.info("账单实体： {}",bill.toString());
         Bill updatedBill = billService.updateBill(bill);
         return Result.success().message("管理员修改订单成功").data(updatedBill);
     }

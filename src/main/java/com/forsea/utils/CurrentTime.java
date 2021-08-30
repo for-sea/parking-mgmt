@@ -12,7 +12,6 @@ public class CurrentTime {
         // 获取时间并格式化为：2021-08-11 15:15:23
         DateTime date = DateUtil.date();
         String currentTime = DateUtil.formatDateTime(date);
-
         return currentTime;
     }
 }
